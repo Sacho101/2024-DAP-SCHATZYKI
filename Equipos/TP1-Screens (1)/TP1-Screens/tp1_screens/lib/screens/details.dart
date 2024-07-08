@@ -51,7 +51,7 @@ class TeamsDetailView extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
           ),
           Text(
-            'Año: ${teams.year}',
+            'Fecha de creacion: ${teams.year}',
             style: Theme.of(context).textTheme.bodyMedium,
           ),
         ],

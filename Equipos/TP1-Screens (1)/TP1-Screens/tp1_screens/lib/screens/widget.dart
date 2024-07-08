@@ -20,7 +20,6 @@ class MovieItem extends StatelessWidget {
             ? _getPoster(teams.escudo!)
             : const Icon(Icons.sports_football_outlined),
         title: Text(teams.nombre),
-        subtitle: Text('DT: ${teams.dt}'),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () => onTap?.call(),
       ),
