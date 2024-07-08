@@ -61,7 +61,7 @@ class LoginScreen extends StatelessWidget {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(logInFallido);
                   } else {
-                    context.pushNamed(HomeScreen.name,
+                    context.pushNamed(Teamsscreen.name,
                         extra: userController.text);
                     const logInExitoso = SnackBar(
                       duration: Duration(seconds: 5),

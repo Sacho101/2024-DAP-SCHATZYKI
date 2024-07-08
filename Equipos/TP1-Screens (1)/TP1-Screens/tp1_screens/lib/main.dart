@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tp1_screens/core/go_router.dart';
+import 'package:tp1_screens/core/Route/go_router.dart';
 
 void main() {
   runApp(const MainApp());
