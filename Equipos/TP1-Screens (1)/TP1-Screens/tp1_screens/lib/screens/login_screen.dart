@@ -1,21 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tp1_screens/core/contradata.dart';
 import 'package:tp1_screens/screens/home_screen.dart';
+import 'package:tp1_screens/entities/contra.dart';
 
-List<String> users = ['Mati', 'Gabi', 'Messi'];
-List<String> passwords = ['123', '456', '789'];
+// Lista de usuarios
 
-int user1 = users.indexOf('Mati');
-int user2 = users.indexOf('Gabi');
-int user3 = users.indexOf('Messi');
+
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   static const String name = 'login';
+  final List<Usuario> teams = usuariolist;
   LoginScreen({super.key});
 
   final TextEditingController userController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -46,30 +48,6 @@ class LoginScreen extends StatelessWidget {
                 String textoingresadouser = userController.text;
                 String textoingresadopass = passwordController.text;
 
-                if (!users.contains(textoingresadouser)) {
-                  const userNoExiste = SnackBar(
-                    duration: Duration(seconds: 5),
-                    content: Text('Usuario no existe.'),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(userNoExiste);
-                } else {
-                  int user = users.indexOf(textoingresadouser);
-                  if (passwords[user] != textoingresadopass) {
-                    const logInFallido = SnackBar(
-                      duration: Duration(seconds: 5),
-                      content: Text('Contraseña incorrecta.'),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(logInFallido);
-                  } else {
-                    context.pushNamed(Teamsscreen.name,
-                        extra: userController.text);
-                    const logInExitoso = SnackBar(
-                      duration: Duration(seconds: 5),
-                      content: Text('Contraseña incorrecta.'),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(logInExitoso);
-                  }
-                }
                 if (textoingresadouser.isEmpty || textoingresadopass.isEmpty) {
                   //¿Se ha ingresado Usuario y Contraseña?
                   const logInVacio = SnackBar(
@@ -77,6 +55,33 @@ class LoginScreen extends StatelessWidget {
                     content: Text('Campos Vacíos'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(logInVacio);
+                  return;
+                }
+
+                Usuario? usuario = usuariolist.firstWhere(
+                  (user) => user.nombre == textoingresadouser,
+                  orElse: () => Usuario(id: '', nombre: '', contra: ''),
+                );
+
+                if (usuario.nombre.isEmpty) {
+                  const userNoExiste = SnackBar(
+                    duration: Duration(seconds: 5),
+                    content: Text('Usuario no existe.'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(userNoExiste);
+                } else if (usuario.contra != textoingresadopass) {
+                  const logInFallido = SnackBar(
+                    duration: Duration(seconds: 5),
+                    content: Text('Contraseña incorrecta.'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(logInFallido);
+                } else {
+                  context.pushNamed(Teamsscreen.name, extra: usuario.nombre);
+                  const logInExitoso = SnackBar(
+                    duration: Duration(seconds: 5),
+                    content: Text('Inicio de sesión exitoso.'),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(logInExitoso);
                 }
               },
               child: const Text('Login'),
