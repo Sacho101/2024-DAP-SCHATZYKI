@@ -50,7 +50,7 @@ class LoginScreen extends StatelessWidget {
                 if (textoingresadouser.isEmpty || textoingresadopass.isEmpty) {
                   //¿Se ha ingresado Usuario y Contraseña?
                   const logInVacio = SnackBar(
-                    duration: Duration(seconds: 5),
+                    duration: Duration(seconds: 3),
                     content: Text('Campos Vacíos'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(logInVacio);
@@ -64,20 +64,20 @@ class LoginScreen extends StatelessWidget {
 
                 if (usuario.nombre.isEmpty) {
                   const userNoExiste = SnackBar(
-                    duration: Duration(seconds: 5),
+                    duration: Duration(seconds: 3),
                     content: Text('Usuario no existe.'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(userNoExiste);
                 } else if (usuario.contra != textoingresadopass) {
                   const logInFallido = SnackBar(
-                    duration: Duration(seconds: 5),
+                    duration: Duration(seconds: 3),
                     content: Text('Contraseña incorrecta.'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(logInFallido);
                 } else {
                   context.pushNamed(Teamsscreen.name, extra: usuario.nombre);
                   const logInExitoso = SnackBar(
-                    duration: Duration(seconds: 5),
+                    duration: Duration(seconds: 3),
                     content: Text('Inicio de sesión exitoso.'),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(logInExitoso);
