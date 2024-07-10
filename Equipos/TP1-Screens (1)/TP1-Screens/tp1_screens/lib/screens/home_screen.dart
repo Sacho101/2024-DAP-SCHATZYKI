@@ -1,4 +1,4 @@
-// ignore_for_file: unused_import
+// ignore_for_file: unused_import, unused_element
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -22,13 +22,13 @@ class Teamsscreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('germany teams'),
       ),
-      body: const _teamsview(),
+      body: const _Teamsview(),
     );
   }
 }
 
-class _teamsview extends StatelessWidget {
-  const _teamsview ({super.key});
+class _Teamsview extends StatelessWidget {
+  const _Teamsview ({super.key});
 
   @override
   Widget build(BuildContext context) {
