@@ -5,7 +5,7 @@ import 'package:tp1_screens/entities/contra.dart';
 final usuariolist = <Usuario>[
   Usuario(
     id: '0',
-    nombre: 'messi',
+    nombre: 'Messi',
     contra: '123',
   ),
    Usuario(
