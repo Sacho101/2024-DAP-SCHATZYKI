@@ -2,7 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tp1_screens/screens/Details.dart';
 import 'package:tp1_screens/screens/home_screen.dart';
 import 'package:tp1_screens/screens/login_Screen.dart';
-
+//
 final appRouter = GoRouter(routes: [
   GoRoute(
     name: LoginScreen.name,

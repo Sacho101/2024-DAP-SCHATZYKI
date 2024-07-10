@@ -1,5 +1,5 @@
 import 'package:tp1_screens/entities/teams.dart';
-
+//
 
 final teamsList = <Teams>[
   Teams(

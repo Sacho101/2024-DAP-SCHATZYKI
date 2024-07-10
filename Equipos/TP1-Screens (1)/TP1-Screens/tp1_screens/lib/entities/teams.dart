@@ -5,7 +5,7 @@ class Teams {
   final String dt;
   final String year;
   final String? escudo;
-
+//
   Teams({
      required this.nuemro,
     required this.nombre,
