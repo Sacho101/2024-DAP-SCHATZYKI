@@ -20,7 +20,7 @@ class Teamsscreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('germany teams'),
+        title: const Text('Germany teams'),
       ),
       body: const _Teamsview(),
     );
