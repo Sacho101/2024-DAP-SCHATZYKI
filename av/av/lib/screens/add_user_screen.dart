@@ -1,38 +1,18 @@
+// lib/screens/add_user_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AddUserScreen extends StatefulWidget {
-  const AddUserScreen({Key? key}) : super(key: key);
+class AddUserScreen extends StatelessWidget {
+  static const String routeName = '/add-user'; // Identificador de ruta
 
-  @override
-  _AddUserScreenState createState() => _AddUserScreenState();
-}
-
-class _AddUserScreenState extends State<AddUserScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // Función para crear un nuevo usuario
-  Future<void> _createUser() async {
-    try {
-      await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Usuario creado exitosamente')),
-      );
-      Navigator.pop(context); // Volver a la pantalla de login
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al crear usuario: ${e.toString()}')),
-      );
-    }
-  }
+  const AddUserScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Agregar Usuario')),
       body: Padding(
@@ -40,23 +20,39 @@ class _AddUserScreenState extends State<AddUserScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Campo para usuario
             TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Usuario'),
+              controller: emailController,
+              decoration: const InputDecoration(labelText: 'Correo'),
             ),
-            const SizedBox(height: 16.0),
-            // Campo para contraseña
             TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
+              controller: passwordController,
               obscureText: true,
+              decoration: const InputDecoration(labelText: 'Contraseña'),
             ),
-            const SizedBox(height: 24.0),
-            // Botón para guardar el usuario
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _createUser,
-              child: const Text('Guardar Usuario'),
+              onPressed: () async {
+                try {
+                  // Registra un nuevo usuario en Firebase Auth
+                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Usuario creado exitosamente'),
+                    ),
+                  );
+
+                  Navigator.pop(context); // Vuelve a la pantalla de login
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: $e')),
+                  );
+                }
+              },
+              child: const Text('Registrar Usuario'),
             ),
           ],
         ),

@@ -1,41 +1,60 @@
+// lib/screens/login_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:av/screens/add_user_screen.dart';
-import 'package:av/screens/home_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatelessWidget {
+  static const String routeName = '/login'; // Identificador de ruta
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  // Función para iniciar sesión
-  Future<void> _login() async {
-    try {
-      await _auth.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
-      );
-      // Si tiene éxito, navegar a la pantalla principal
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al iniciar sesión: ${e.toString()}')),
-      );
-    }
-  }
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Firebase.initializeApp(), // Inicializa Firebase
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Mientras se conecta Firebase, muestra el mensaje de carga
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'Conectándose a Firebase...',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          // Si hay un error al inicializar Firebase, muestra un mensaje de error
+          return const Scaffold(
+            body: Center(
+              child: Text(
+                'Error al conectar con Firebase. Por favor, reinicia la aplicación.',
+                style: TextStyle(fontSize: 16, color: Colors.red),
+              ),
+            ),
+          );
+        }
+
+        // Si Firebase se inicializa correctamente, muestra la pantalla de login
+        return const LoginForm();
+      },
+    );
+  }
+}
+
+class LoginForm extends StatelessWidget {
+  const LoginForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Padding(
@@ -43,32 +62,44 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Campo para usuario
             TextField(
-              controller: _emailController,
+              controller: emailController,
               decoration: const InputDecoration(labelText: 'Usuario'),
             ),
-            const SizedBox(height: 16.0),
-            // Campo para contraseña
             TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Contraseña'),
+              controller: passwordController,
               obscureText: true,
+              decoration: const InputDecoration(labelText: 'Contraseña'),
             ),
-            const SizedBox(height: 24.0),
-            // Botón de iniciar sesión
+            const SizedBox(height: 16),
             ElevatedButton(
-              onPressed: _login,
+              onPressed: () async {
+                try {
+                  // Intenta iniciar sesión con Firebase Auth
+                  await FirebaseAuth.instance.signInWithEmailAndPassword(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Inicio de sesión exitoso'),
+                    ),
+                  );
+
+                  // Aquí podrías agregar la navegación a otra pantalla si es necesario
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Error: $e')),
+                  );
+                }
+              },
               child: const Text('Iniciar Sesión'),
             ),
-            const SizedBox(height: 16.0),
-            // Botón de agregar usuario
-            TextButton(
+            const SizedBox(height: 16),
+            ElevatedButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddUserScreen()),
-                );
+                context.go(AddUserScreen.routeName); // Navega a agregar usuario
               },
               child: const Text('Agregar Usuario'),
             ),
