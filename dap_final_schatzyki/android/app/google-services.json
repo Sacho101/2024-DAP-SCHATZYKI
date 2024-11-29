@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "855786577868",
+    "project_id": "dapppp-23696",
+    "storage_bucket": "dapppp-23696.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855786577868:android:751434c2d000d241870769",
+        "android_client_info": {
+          "package_name": "com.dap.sacho"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxLkjop73mE2z-jGfzDtqbAUdabZyHqkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855786577868:android:da7d71850153224f870769",
+        "android_client_info": {
+          "package_name": "com.example.av"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxLkjop73mE2z-jGfzDtqbAUdabZyHqkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
